@@ -1,4 +1,23 @@
 module.exports = {
-  calcCircleArea: (radius) => (typeof radius === 'number' && radius > 0) ? Math.PI * radius * radius : undefined,
-  doesStartWithUppercase: (sentence) => (typeof sentence === 'string' && sentence.length >= 1) ? /[A-Z]/.test(sentence) : undefined
+
+  calcCircleArea: (radius) => {
+    if(typeof radius !== 'number') {
+      throw new Error(`Radius has be a type of number!`)
+    }
+
+    if(radius <= 0) {
+      throw new Error(`Radius has be a positive number!`)
+    }
+
+    return Math.PI * radius * radius
+  },
+
+  startsWithUppercase: (sentence) => {
+    if (typeof sentence !== 'string') {
+      throw new Error(`Sentence has to be a type of string!`)
+    }
+
+    return /[A-Z]/.test(sentence)
+  }
+
 }

@@ -1,7 +1,7 @@
-const { calcCircleArea, doesStartWithUppercase } = require('./index')
+const { calcCircleArea, startsWithUppercase } = require('./index')
 
-describe('Circle Area Calculation', () => {
-  test('returns proper circle area for multiple cases', () => {
+describe(`Circle area calculation`, () => {
+  test(`returns proper circle area for multiple cases`, () => {
     const validCirclesPairs = [
       { radius: 0.6, area: 1.13 },
       { radius: 1, area: Math.PI },
@@ -14,49 +14,48 @@ describe('Circle Area Calculation', () => {
     })
   })
 
-  test('returns undefined when provided radius value is not a number type', () => {
+  test(`throws an Error when provided radius value is not a number type`, () => {
     ['string', false, {key: 1}, [1]].forEach(wrongRadiusType => {
-      expect(calcCircleArea(wrongRadiusType)).toBe(undefined)
+      expect(() => calcCircleArea(wrongRadiusType)).toThrow(`Radius has be a type of number!`)
     })
   })
 
-  test('returns undefined when provided radius value is zero or smaller', () => {
+  test(`throws an Error when provided radius value isn't positive`, () => {
     [0, -0.5, -11, -999999999999].forEach(wrongNumber => {
-      expect(calcCircleArea(wrongNumber)).toBe(undefined)
+      expect(() => calcCircleArea(wrongNumber)).toThrow(`Radius has be a positive number!`)
     })
   })
 })
 
-describe('Determining if string starts with uppercase', () => {
-  test('returns proper results for single lettter', () => {
-    expect(doesStartWithUppercase('X')).toBe(true)
-    expect(doesStartWithUppercase('x')).toBe(false)
+describe(`Determining if string starts with uppercase`, () => {
+  test(`returns proper results for single lettter`, () => {
+    expect(startsWithUppercase('X')).toBe(true)
+    expect(startsWithUppercase('x')).toBe(false)
   })
 
-  test('returns proper results for single word', () => {
-    expect(doesStartWithUppercase('Paweł')).toBe(true)
-    expect(doesStartWithUppercase('paweł')).toBe(false)
+  test(`returns proper results for single word`, () => {
+    expect(startsWithUppercase('Paweł')).toBe(true)
+    expect(startsWithUppercase('paweł')).toBe(false)
   })
 
-  test('returns proper results for sentences', () => {
-    expect(doesStartWithUppercase('Paweł Ż****** is awesome developer')).toBe(true)
-    expect(doesStartWithUppercase('and nothing else matters...')).toBe(false)
+  test(`returns proper results for sentences`, () => {
+    expect(startsWithUppercase('Paweł Ż****** is awesome developer')).toBe(true)
+    expect(startsWithUppercase('and nothing else matters...')).toBe(false)
   })
 
-  test('returns false for uppercased polish letters', () => {
-    expect(doesStartWithUppercase('Żukiew')).toBe(false)
-    expect(doesStartWithUppercase('Świętoszkowice')).toBe(false)
-    expect(doesStartWithUppercase('Łuków')).toBe(false)
-    expect(doesStartWithUppercase('Ćwikła')).toBe(false)
+  test(`returns false for empty string`, () => {
+    expect(startsWithUppercase('')).toBe(false)
   })
 
-  test('returns undefined for wrong datatypes', () => {
-    [171, {some: 'key'}, [17, 15], true].forEach(wrongDatatype => {
-      expect(doesStartWithUppercase(wrongDatatype)).toBe(undefined)
+  test(`returns false for uppercased polish letters`, () => {
+    ['Ćwikła', 'Łuków', 'Świętoszkowice', 'Żukiew'].forEach(polishWord => {
+      expect(startsWithUppercase(polishWord)).toBe(false)
     })
   })
 
-  test('returns undefined for empty string', () => {
-    expect(doesStartWithUppercase('')).toBe(undefined)
+  test(`throws an Error for wrong datatypes`, () => {
+    [171, {some: 'key'}, [17, 15], true].forEach(wrongDataType => {
+      expect(() => startsWithUppercase(wrongDataType)).toThrow(`Sentence has to be a type of string!`)
+    })
   })
 })
